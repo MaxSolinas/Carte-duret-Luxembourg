@@ -1,0 +1,83 @@
+<div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 700px; margin: 0 auto;">
+  <h2 style="text-align: center; color: #0D7EBC;">Dureté de l'eau par commune</h2>
+
+  <div style="text-align:center; margin-bottom: 15px;">
+    <strong>Filtrer par lettre :</strong><br>
+    <div id="alphabet" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 10px; font-size: 13px;"></div>
+  </div>
+
+  <div style="text-align: center; margin-bottom: 20px;">
+    <select id="communeSelect" style="padding: 8px; width: 300px; display:none; background: white; color: black; border: 1px solid #ccc; border-radius: 5px;">
+      <option value="">-- Sélectionnez une commune --</option>
+    </select>
+  </div>
+
+  <div id="communeDetails" style="max-width: 500px; margin: 0 auto; padding: 15px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; color: #333;"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const communesData = [
+    ["Beaufort", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
+    ["Bech", "30 - 35 °f", "eau très dure – Adoucisseur indispensable"],
+    ["Bettendorf", "> 35 °f", "eau extrêmement dure – Adoucisseur indispensable"],
+    ["Clervaux", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
+    ["Dudelange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
+    ["Esch-sur-Alzette", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
+    ["Luxembourg", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
+    ["Mondorf-les-Bain", "> 35 °f", "eau extrêmement dure – Adoucisseur indispensable"],
+    ["Schengen", "> 35 °f", "eau extrêmement dure – Adoucisseur indispensable"]
+  ];
+
+  const alphabetContainer = document.getElementById("alphabet");
+  const communeSelect = document.getElementById("communeSelect");
+  const communeDetails = document.getElementById("communeDetails");
+
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
+    const btn = document.createElement("button");
+    btn.textContent = letter;
+    btn.style.padding = "5px 8px";
+    btn.style.border = "1px solid #ccc";
+    btn.style.borderRadius = "4px";
+    btn.style.background = "#f0f0f0";
+    btn.style.cursor = "pointer";
+    btn.style.fontSize = "13px";
+    btn.onclick = () => filterCommunesByLetter(letter);
+    alphabetContainer.appendChild(btn);
+  });
+
+  function filterCommunesByLetter(letter) {
+    const filtered = communesData.filter(([nom]) => nom.toUpperCase().startsWith(letter));
+    communeSelect.innerHTML = '<option value="">-- Sélectionnez une commune --</option>';
+
+    if (filtered.length > 0) {
+      filtered.forEach(([nom]) => {
+        const opt = document.createElement("option");
+        opt.value = nom;
+        opt.textContent = nom;
+        communeSelect.appendChild(opt);
+      });
+      communeSelect.style.display = "inline-block";
+      communeDetails.style.display = "none";
+    } else {
+      communeSelect.style.display = "none";
+      communeDetails.style.display = "none";
+    }
+  }
+
+  communeSelect.addEventListener("change", function () {
+    const selected = this.value;
+    const commune = communesData.find(([nom]) => nom === selected);
+    if (commune) {
+      communeDetails.innerHTML = `
+        <strong style="font-size: 1.2em;">${commune[0]}</strong><br>
+        Dureté moyenne : <strong>${commune[1]}</strong><br>
+        <em>${commune[2]}</em>
+      `;
+      communeDetails.style.display = "block";
+    } else {
+      communeDetails.style.display = "none";
+    }
+  });
+});
+</script>
