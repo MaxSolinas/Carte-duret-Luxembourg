@@ -16,114 +16,84 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const communesData = [
-["Bech", "30 - 35 °f", "eau très dure – Adoucisseur indispensable"],
-["Beckerich", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Berdorf", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Bertrange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Bettembourg", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Bettendorf", "> 35 °f", "eau extrêmement dure – Adoucisseur indispensable"],
-["Bissen", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Biwer", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Boulaide", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Bourscheid", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Bous", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Clervaux", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Colmar-Berg", "30 - 35 °f", "eau très dure – Adoucisseur indispensable"],
-["Consdorf", "30 - 35 °f", "eau très dure – Adoucisseur indispensable"],
-["Contern", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Dalheim", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Diekirch", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Differdange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Dippach", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Dudelange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Echternach", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Ell", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Erpeldange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Esch-sur-Alzette", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Esch-sur-Sûre", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Ettelbruck", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Feulen", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Fischbach", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Flaxweiler", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Frisange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Garnich", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Goesdorf", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Grevenmacher", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Grosbous", "< 9 °f", "eau douce – Adoucisseur optionnel"],
-["Heffingen", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Helperknapp", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Hesperange", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Hobscheid", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Junglinster", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Käerjeng", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Kayl", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Kehlen", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Kiischpelt", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Koerich", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Kopstal", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Lac de la Haute-Sûre", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Larochette", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Lenningen", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Leudelange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Lintgen", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Lorentzweiler", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Luxembourg", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Mamer", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Manternach", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Mersch", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Mertert", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Mertzig", "< 9 °f", "eau douce – Adoucisseur optionnel"],
-["Mondercange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Mondorf-les-Bain", "> 35 °f", "eau extrêmement dure – Adoucisseur indispensable"],
-["Niederanven", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Nommern", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Parc Hosingen", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Pétange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Préizerdaul", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Putscheid", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Rambrouch", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Reckange/Mess", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Redange/Attert", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Reisdorf", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Remich", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Roeser", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Rosport-Mompach", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Rumelange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Saeul", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Sandweiler", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Sanem", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Schengen", "> 35 °f", "eau extrêmement dure – Adoucisseur indispensable"],
-["Schieren", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Schifflange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Schuttrange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Stadtbredimus", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Steinfort", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Steinsel", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Strassen", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Tandel", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Troisvierges", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Useldange", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Vallée de l'Ernz", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Vianden", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Vichten", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Wahl", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Waldbillig", "25 - 30 °f", "eau très dure – Adoucisseur indispensable"],
-["Waldbredimus", "15 - 25 °f", "eau dure – Adoucisseur fortement recommandé"],
-["Walferdange", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Weiler-la-Tour", "30 - 35 °f", "eau très dure – Adoucisseur indispensable"],
-["Weiswampach", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Wiltz", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Wincrange", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Winseler", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-["Wormeldange", "9 - 15 °f", "eau modérément dure – Adoucisseur recommandé"],
-  ];
+document.addEventListener('DOMContentLoaded', async function () {
+  const API_URL = 'https://download.data.public.lu/resources/durete-de-leau/20251111-020330/wasserharte.geojson';
 
   const alphabetContainer = document.getElementById("alphabet");
   const communeSelect = document.getElementById("communeSelect");
   const communeDetails = document.getElementById("communeDetails");
 
+  let communesData = [];
+  let currentFilter = '';
+
+  // Fonction pour déterminer la catégorie et la recommandation selon la dureté
+  function getHardnessInfo(hardness) {
+    if (hardness < 9) {
+      return {
+        range: '< 9 °f',
+        category: 'eau douce – Adoucisseur optionnel'
+      };
+    } else if (hardness < 15) {
+      return {
+        range: '9 - 15 °f',
+        category: 'eau modérément dure – Adoucisseur recommandé'
+      };
+    } else if (hardness < 25) {
+      return {
+        range: '15 - 25 °f',
+        category: 'eau dure – Adoucisseur fortement recommandé'
+      };
+    } else if (hardness < 30) {
+      return {
+        range: '25 - 30 °f',
+        category: 'eau très dure – Adoucisseur indispensable'
+      };
+    } else if (hardness < 35) {
+      return {
+        range: '30 - 35 °f',
+        category: 'eau très dure – Adoucisseur indispensable'
+      };
+    } else {
+      return {
+        range: '> 35 °f',
+        category: 'eau extrêmement dure – Adoucisseur indispensable'
+      };
+    }
+  }
+
+  // Charger les données depuis l'API
+  try {
+    const response = await fetch(API_URL);
+    const geoData = await response.json();
+
+    // Extraire et regrouper les données par commune
+    const communesMap = new Map();
+
+    geoData.features.forEach(feature => {
+      const commune = feature.properties['trinkwasser.GISADMIN.DWDnationalReportingDurete.Commune'];
+      const hardness = feature.properties['trinkwasser.GISADMIN.DWDnationalReportingDurete.WSZDurete'];
+
+      if (commune && hardness !== null && hardness !== undefined) {
+        if (!communesMap.has(commune)) {
+          const info = getHardnessInfo(hardness);
+          communesMap.set(commune, [commune, info.range, info.category, hardness]);
+        }
+      }
+    });
+
+    // Convertir en tableau et trier par nom
+    communesData = Array.from(communesMap.values()).sort((a, b) =>
+      a[0].localeCompare(b[0], 'fr')
+    );
+
+  } catch (error) {
+    console.error('Erreur lors du chargement des données:', error);
+    communeDetails.innerHTML = '<strong style="color: red;">Erreur de chargement des données. Veuillez réessayer plus tard.</strong>';
+    communeDetails.style.display = "block";
+    return;
+  }
+
+  // Créer les boutons alphabétiques
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
     const btn = document.createElement("button");
     btn.textContent = letter;
@@ -133,28 +103,50 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.style.background = "#f0f0f0";
     btn.style.cursor = "pointer";
     btn.style.fontSize = "13px";
-    btn.onclick = () => filterCommunesByLetter(letter);
+    btn.onclick = () => filterCommunesByLetter(letter, btn);
     alphabetContainer.appendChild(btn);
   });
 
-  function filterCommunesByLetter(letter) {
-    const filtered = communesData.filter(([nom]) => nom.toUpperCase().startsWith(letter));
+  function filterCommunesByLetter(letter, btnElement) {
+    // Réinitialiser tous les boutons
+    document.querySelectorAll('#alphabet button').forEach(btn => {
+      btn.style.background = "#f0f0f0";
+      btn.style.color = "black";
+    });
+
+    // Si on clique sur la même lettre, réinitialiser
+    if (currentFilter === letter) {
+      currentFilter = '';
+      populateCommuneSelect(communesData);
+    } else {
+      currentFilter = letter;
+      btnElement.style.background = "#0D7EBC";
+      btnElement.style.color = "white";
+      const filtered = communesData.filter(([nom]) => nom.toUpperCase().startsWith(letter));
+      populateCommuneSelect(filtered);
+    }
+
+    communeDetails.style.display = "none";
+  }
+
+  function populateCommuneSelect(data) {
     communeSelect.innerHTML = '<option value="">-- Sélectionnez une commune --</option>';
 
-    if (filtered.length > 0) {
-      filtered.forEach(([nom]) => {
+    if (data.length > 0) {
+      data.forEach(([nom]) => {
         const opt = document.createElement("option");
         opt.value = nom;
         opt.textContent = nom;
         communeSelect.appendChild(opt);
       });
       communeSelect.style.display = "inline-block";
-      communeDetails.style.display = "none";
     } else {
       communeSelect.style.display = "none";
-      communeDetails.style.display = "none";
     }
   }
+
+  // Remplir le select initial
+  populateCommuneSelect(communesData);
 
   communeSelect.addEventListener("change", function () {
     const selected = this.value;
@@ -162,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (commune) {
       communeDetails.innerHTML = `
         <strong style="font-size: 1.2em;">${commune[0]}</strong><br>
-        Dureté moyenne : <strong>${commune[1]}</strong><br>
+        Dureté moyenne : <strong>${commune[1]}</strong> (${commune[3].toFixed(1)} °f)<br>
         <em>${commune[2]}</em>
       `;
       communeDetails.style.display = "block";
