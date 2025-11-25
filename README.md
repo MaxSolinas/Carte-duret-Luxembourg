@@ -1,6 +1,9 @@
-# Widget Dureté de l'Eau - Luxembourg
+# Widget Dureté de l'Eau Luxembourg
 
-Ce projet contient deux versions d'un widget permettant de consulter la dureté de l'eau par commune au Luxembourg.
+**© 2025 Aqua Purify - Tous droits réservés**
+
+Ce widget est développé et maintenu par **Aqua Purify**.
+Il permet de consulter la dureté de l'eau par commune au Luxembourg.
 
 ## 📁 Fichiers disponibles
 

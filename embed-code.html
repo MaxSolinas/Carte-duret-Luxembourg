@@ -1,5 +1,14 @@
-<!-- WIDGET DURETÉ DE L'EAU - CODE EMBED -->
-<!-- Copiez-collez ce code complet où vous voulez afficher le widget -->
+<!--
+╔══════════════════════════════════════════════════════════════════════╗
+║              WIDGET DURETÉ DE L'EAU LUXEMBOURG                       ║
+║                     © 2025 Aqua Purify                               ║
+║                  Tous droits réservés                                ║
+║                                                                      ║
+║  Ce widget est la propriété exclusive d'Aqua Purify.                ║
+║  Toute reproduction, modification ou utilisation non autorisée      ║
+║  de ce code est strictement interdite.                              ║
+╚══════════════════════════════════════════════════════════════════════╝
+-->
 
 <div id="widget-durete-eau-container">
   <style>
@@ -214,7 +223,7 @@
   </style>
 
   <div class="wde-widget">
-    <h2 class="wde-title">Dureté de l'Eau par Commune</h2>
+    <h2 class="wde-title">Widget Dureté de l'Eau Luxembourg</h2>
 
     <div id="wde-loading" class="wde-loading">
       Chargement des données...
@@ -250,8 +259,9 @@
       <div id="wde-commune-details" class="wde-commune-details wde-hidden"></div>
 
       <div class="wde-data-source">
-        Données fournies par <a href="https://data.public.lu/fr/datasets/durete-de-leau/" target="_blank">data.public.lu</a>
-        - Administration de la gestion de l'eau
+        <strong style="color: #0D7EBC; font-size: 14px;">Propulsé par Aqua Purify</strong><br>
+        Données fournies par <a href="https://data.public.lu/fr/datasets/durete-de-leau/" target="_blank">data.public.lu</a><br>
+        <span style="font-size: 10px;">© 2025 Aqua Purify - Tous droits réservés</span>
       </div>
     </div>
   </div>
@@ -509,8 +519,45 @@
         });
       }
 
+      // Protection anti-copie
+      function protectWidget() {
+        const container = document.getElementById('widget-durete-eau-container');
+
+        // Désactiver le clic droit
+        container.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          return false;
+        });
+
+        // Désactiver la sélection de texte
+        container.style.userSelect = 'none';
+        container.style.webkitUserSelect = 'none';
+        container.style.mozUserSelect = 'none';
+        container.style.msUserSelect = 'none';
+
+        // Ajouter watermark invisible
+        const watermark = document.createElement('div');
+        watermark.innerHTML = '© Aqua Purify';
+        watermark.style.display = 'none';
+        container.appendChild(watermark);
+
+        // Protection contre F12
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'F12' ||
+              (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+              (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+              (e.ctrlKey && e.key === 'U')) {
+            if (container.contains(document.activeElement)) {
+              e.preventDefault();
+              return false;
+            }
+          }
+        });
+      }
+
       // Charger les données au démarrage
       loadData();
+      protectWidget();
     })();
   </script>
 </div>

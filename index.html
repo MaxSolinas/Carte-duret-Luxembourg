@@ -1,5 +1,17 @@
-<div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 700px; margin: 0 auto;">
-  <h2 style="text-align: center; color: #0D7EBC;">Dureté de l'eau par commune</h2>
+<!--
+╔══════════════════════════════════════════════════════════════════════╗
+║              WIDGET DURETÉ DE L'EAU LUXEMBOURG                       ║
+║                     © 2025 Aqua Purify                               ║
+║                  Tous droits réservés                                ║
+║                                                                      ║
+║  Ce widget est la propriété exclusive d'Aqua Purify.                ║
+║  Toute reproduction, modification ou utilisation non autorisée      ║
+║  de ce code est strictement interdite.                              ║
+╚══════════════════════════════════════════════════════════════════════╝
+-->
+
+<div id="aqua-purify-widget" style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 700px; margin: 0 auto;">
+  <h2 style="text-align: center; color: #0D7EBC;">Widget Dureté de l'Eau Luxembourg</h2>
 
   <div style="text-align:center; margin-bottom: 15px;">
     <strong>Filtrer par lettre :</strong><br>
@@ -13,6 +25,12 @@
   </div>
 
   <div id="communeDetails" style="max-width: 500px; margin: 0 auto; padding: 15px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; color: #333;"></div>
+
+  <div style="margin-top: 20px; padding: 10px; font-size: 12px; color: #666; text-align: center; border-top: 1px solid #ddd;">
+    <strong style="color: #0D7EBC; font-size: 14px;">Propulsé par Aqua Purify</strong><br>
+    Données fournies par <a href="https://data.public.lu/fr/datasets/durete-de-leau/" target="_blank" style="color: #0D7EBC; text-decoration: none;">data.public.lu</a><br>
+    <span style="font-size: 10px;">© 2025 Aqua Purify - Tous droits réservés</span>
+  </div>
 </div>
 
 <script>
@@ -170,5 +188,41 @@ document.addEventListener('DOMContentLoaded', async function () {
       communeDetails.style.display = "none";
     }
   });
+
+  // Protection anti-copie
+  (function() {
+    const widget = document.getElementById('aqua-purify-widget');
+
+    // Désactiver le clic droit
+    widget.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // Désactiver la sélection
+    widget.style.userSelect = 'none';
+    widget.style.webkitUserSelect = 'none';
+    widget.style.mozUserSelect = 'none';
+    widget.style.msUserSelect = 'none';
+
+    // Ajouter watermark invisible
+    const watermark = document.createElement('div');
+    watermark.innerHTML = '© Aqua Purify';
+    watermark.style.display = 'none';
+    widget.appendChild(watermark);
+
+    // Protection contre outils développeur
+    document.addEventListener('keydown', (e) => {
+      if (widget.contains(document.activeElement)) {
+        if (e.key === 'F12' ||
+            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+            (e.ctrlKey && e.key === 'U')) {
+          e.preventDefault();
+          return false;
+        }
+      }
+    });
+  })();
 });
 </script>
