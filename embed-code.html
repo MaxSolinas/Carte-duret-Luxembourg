@@ -1,0 +1,503 @@
+<!-- WIDGET DURETÉ DE L'EAU - CODE EMBED -->
+<!-- Copiez-collez ce code complet où vous voulez afficher le widget -->
+
+<div id="widget-durete-eau-container">
+  <style>
+    #widget-durete-eau-container {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .wde-widget {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .wde-title {
+      text-align: center;
+      color: #0D7EBC;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    .wde-loading {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+
+    .wde-error {
+      text-align: center;
+      padding: 20px;
+      color: #d32f2f;
+      background: #ffebee;
+      border-radius: 5px;
+    }
+
+    .wde-search-section {
+      margin-bottom: 20px;
+    }
+
+    .wde-search-input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    .wde-search-input:focus {
+      outline: none;
+      border-color: #0D7EBC;
+    }
+
+    .wde-alphabet-filter {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .wde-alphabet-filter strong {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .wde-alphabet-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    .wde-alphabet-btn {
+      padding: 5px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #f0f0f0;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .wde-alphabet-btn:hover {
+      background: #0D7EBC;
+      color: white;
+      border-color: #0D7EBC;
+    }
+
+    .wde-alphabet-btn.active {
+      background: #0D7EBC;
+      color: white;
+      border-color: #0D7EBC;
+    }
+
+    .wde-commune-select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background: white;
+      color: black;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .wde-commune-select:focus {
+      outline: none;
+      border-color: #0D7EBC;
+    }
+
+    .wde-commune-details {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      color: #333;
+    }
+
+    .wde-commune-name {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #0D7EBC;
+      margin-bottom: 10px;
+    }
+
+    .wde-hardness-value {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+
+    .wde-hardness-category {
+      font-size: 1em;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    .wde-category-soft {
+      background: #c8e6c9;
+      color: #2e7d32;
+    }
+
+    .wde-category-moderate {
+      background: #fff9c4;
+      color: #f57f17;
+    }
+
+    .wde-category-hard {
+      background: #ffccbc;
+      color: #d84315;
+    }
+
+    .wde-category-very-hard {
+      background: #ffcdd2;
+      color: #c62828;
+    }
+
+    .wde-category-extreme {
+      background: #f8bbd0;
+      color: #880e4f;
+    }
+
+    .wde-hidden {
+      display: none;
+    }
+
+    .wde-suggestion-list {
+      background: white;
+      border: 2px solid #0D7EBC;
+      border-top: none;
+      border-radius: 0 0 5px 5px;
+      max-height: 200px;
+      overflow-y: auto;
+      position: absolute;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-top: -2px;
+    }
+
+    .wde-suggestion-item {
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .wde-suggestion-item:hover {
+      background: #e3f2fd;
+    }
+
+    .wde-data-source {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      border-top: 1px solid #ddd;
+    }
+
+    .wde-data-source a {
+      color: #0D7EBC;
+      text-decoration: none;
+    }
+
+    .wde-data-source a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <div class="wde-widget">
+    <h2 class="wde-title">Dureté de l'Eau par Commune</h2>
+
+    <div id="wde-loading" class="wde-loading">
+      Chargement des données...
+    </div>
+
+    <div id="wde-error" class="wde-error wde-hidden">
+      Erreur lors du chargement des données. Veuillez réessayer plus tard.
+    </div>
+
+    <div id="wde-content" class="wde-hidden">
+      <div class="wde-search-section" style="position: relative;">
+        <input
+          type="text"
+          id="wde-search-input"
+          class="wde-search-input"
+          placeholder="Rechercher une commune..."
+          autocomplete="off"
+        >
+        <div id="wde-suggestion-list" class="wde-suggestion-list wde-hidden"></div>
+      </div>
+
+      <div class="wde-alphabet-filter">
+        <strong>Ou filtrer par lettre :</strong>
+        <div id="wde-alphabet-buttons" class="wde-alphabet-buttons"></div>
+      </div>
+
+      <div class="wde-search-section">
+        <select id="wde-commune-select" class="wde-commune-select">
+          <option value="">-- Sélectionnez une commune --</option>
+        </select>
+      </div>
+
+      <div id="wde-commune-details" class="wde-commune-details wde-hidden"></div>
+
+      <div class="wde-data-source">
+        Données fournies par <a href="https://data.public.lu/fr/datasets/durete-de-leau/" target="_blank">data.public.lu</a>
+        - Administration de la gestion de l'eau
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Configuration
+      const API_URL = 'https://download.data.public.lu/resources/durete-de-leau/20251111-020330/wasserharte.geojson';
+
+      // Éléments du DOM
+      const loadingEl = document.getElementById('wde-loading');
+      const errorEl = document.getElementById('wde-error');
+      const contentEl = document.getElementById('wde-content');
+      const searchInput = document.getElementById('wde-search-input');
+      const suggestionList = document.getElementById('wde-suggestion-list');
+      const alphabetButtons = document.getElementById('wde-alphabet-buttons');
+      const communeSelect = document.getElementById('wde-commune-select');
+      const communeDetails = document.getElementById('wde-commune-details');
+
+      // Données
+      let communesData = [];
+      let currentFilter = '';
+
+      // Fonction pour déterminer la catégorie de dureté
+      function getHardnessCategory(hardness) {
+        if (hardness < 9) {
+          return {
+            category: 'Eau douce',
+            recommendation: 'Adoucisseur optionnel',
+            class: 'wde-category-soft'
+          };
+        } else if (hardness < 15) {
+          return {
+            category: 'Eau modérément dure',
+            recommendation: 'Adoucisseur recommandé',
+            class: 'wde-category-moderate'
+          };
+        } else if (hardness < 25) {
+          return {
+            category: 'Eau dure',
+            recommendation: 'Adoucisseur fortement recommandé',
+            class: 'wde-category-hard'
+          };
+        } else if (hardness < 35) {
+          return {
+            category: 'Eau très dure',
+            recommendation: 'Adoucisseur indispensable',
+            class: 'wde-category-very-hard'
+          };
+        } else {
+          return {
+            category: 'Eau extrêmement dure',
+            recommendation: 'Adoucisseur indispensable',
+            class: 'wde-category-extreme'
+          };
+        }
+      }
+
+      // Fonction pour charger les données
+      async function loadData() {
+        try {
+          const response = await fetch(API_URL);
+          if (!response.ok) {
+            throw new Error('Erreur réseau');
+          }
+
+          const geoData = await response.json();
+
+          // Extraire et regrouper les données par commune
+          const communesMap = new Map();
+
+          geoData.features.forEach(feature => {
+            const commune = feature.properties['trinkwasser.GISADMIN.DWDnationalReportingDurete.Commune'];
+            const hardness = feature.properties['trinkwasser.GISADMIN.DWDnationalReportingDurete.WSZDurete'];
+
+            if (commune && hardness) {
+              if (!communesMap.has(commune)) {
+                communesMap.set(commune, {
+                  name: commune,
+                  hardness: hardness
+                });
+              }
+            }
+          });
+
+          // Convertir en tableau et trier
+          communesData = Array.from(communesMap.values()).sort((a, b) =>
+            a.name.localeCompare(b.name, 'fr')
+          );
+
+          initializeWidget();
+
+        } catch (error) {
+          console.error('Erreur:', error);
+          loadingEl.classList.add('wde-hidden');
+          errorEl.classList.remove('wde-hidden');
+        }
+      }
+
+      // Initialiser le widget
+      function initializeWidget() {
+        loadingEl.classList.add('wde-hidden');
+        contentEl.classList.remove('wde-hidden');
+
+        createAlphabetButtons();
+        populateCommuneSelect(communesData);
+        setupEventListeners();
+      }
+
+      // Créer les boutons alphabétiques
+      function createAlphabetButtons() {
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        alphabet.split('').forEach(letter => {
+          const btn = document.createElement('button');
+          btn.textContent = letter;
+          btn.className = 'wde-alphabet-btn';
+          btn.onclick = () => filterByLetter(letter, btn);
+          alphabetButtons.appendChild(btn);
+        });
+      }
+
+      // Filtrer par lettre
+      function filterByLetter(letter, btnElement) {
+        // Réinitialiser les autres boutons
+        document.querySelectorAll('.wde-alphabet-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+
+        if (currentFilter === letter) {
+          // Désactiver le filtre
+          currentFilter = '';
+          populateCommuneSelect(communesData);
+        } else {
+          // Activer le filtre
+          currentFilter = letter;
+          btnElement.classList.add('active');
+          const filtered = communesData.filter(c =>
+            c.name.toUpperCase().startsWith(letter)
+          );
+          populateCommuneSelect(filtered);
+        }
+
+        communeDetails.classList.add('wde-hidden');
+      }
+
+      // Remplir le select
+      function populateCommuneSelect(data) {
+        communeSelect.innerHTML = '<option value="">-- Sélectionnez une commune --</option>';
+
+        data.forEach(commune => {
+          const option = document.createElement('option');
+          option.value = commune.name;
+          option.textContent = commune.name;
+          communeSelect.appendChild(option);
+        });
+      }
+
+      // Afficher les détails d'une commune
+      function displayCommuneDetails(communeName) {
+        const commune = communesData.find(c => c.name === communeName);
+
+        if (!commune) return;
+
+        const info = getHardnessCategory(commune.hardness);
+
+        communeDetails.innerHTML = `
+          <div class="wde-commune-name">${commune.name}</div>
+          <div class="wde-hardness-value">
+            Dureté moyenne : <strong>${commune.hardness.toFixed(1)} °f</strong>
+          </div>
+          <div class="wde-hardness-category ${info.class}">
+            <strong>${info.category}</strong><br>
+            ${info.recommendation}
+          </div>
+        `;
+
+        communeDetails.classList.remove('wde-hidden');
+      }
+
+      // Recherche avec suggestions
+      function handleSearch(query) {
+        if (query.length < 2) {
+          suggestionList.classList.add('wde-hidden');
+          return;
+        }
+
+        const matches = communesData.filter(c =>
+          c.name.toLowerCase().includes(query.toLowerCase())
+        ).slice(0, 10);
+
+        if (matches.length === 0) {
+          suggestionList.classList.add('wde-hidden');
+          return;
+        }
+
+        // Calculer la largeur du champ de recherche
+        const searchWidth = searchInput.offsetWidth;
+        suggestionList.style.width = searchWidth + 'px';
+
+        suggestionList.innerHTML = matches.map(c => `
+          <div class="wde-suggestion-item" data-commune="${c.name}">
+            ${c.name}
+          </div>
+        `).join('');
+
+        suggestionList.classList.remove('wde-hidden');
+
+        // Ajouter les événements de clic
+        suggestionList.querySelectorAll('.wde-suggestion-item').forEach(item => {
+          item.onclick = () => {
+            const commune = item.dataset.commune;
+            searchInput.value = commune;
+            communeSelect.value = commune;
+            suggestionList.classList.add('wde-hidden');
+            displayCommuneDetails(commune);
+          };
+        });
+      }
+
+      // Configuration des événements
+      function setupEventListeners() {
+        // Recherche
+        searchInput.addEventListener('input', (e) => {
+          handleSearch(e.target.value);
+        });
+
+        // Sélection
+        communeSelect.addEventListener('change', (e) => {
+          if (e.target.value) {
+            displayCommuneDetails(e.target.value);
+            searchInput.value = e.target.value;
+          } else {
+            communeDetails.classList.add('wde-hidden');
+          }
+        });
+
+        // Fermer les suggestions en cliquant ailleurs
+        document.addEventListener('click', (e) => {
+          if (!searchInput.contains(e.target) && !suggestionList.contains(e.target)) {
+            suggestionList.classList.add('wde-hidden');
+          }
+        });
+      }
+
+      // Charger les données au démarrage
+      loadData();
+    })();
+  </script>
+</div>
