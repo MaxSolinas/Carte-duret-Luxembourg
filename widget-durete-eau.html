@@ -552,26 +552,6 @@
             watermark.innerHTML = '© Aqua Purify';
             watermark.style.display = 'none';
             document.body.appendChild(watermark);
-
-            // Protection contre F12 et outils développeur
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'F12' ||
-                    (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-                    (e.ctrlKey && e.shiftKey && e.key === 'J') ||
-                    (e.ctrlKey && e.key === 'U')) {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-
-            // Détection console ouverte
-            setInterval(() => {
-                const threshold = 160;
-                if (window.outerWidth - window.innerWidth > threshold ||
-                    window.outerHeight - window.innerHeight > threshold) {
-                    document.body.innerHTML = '<div style="padding:50px;text-align:center;"><h2>© 2025 Aqua Purify</h2><p>Widget protégé - Tous droits réservés</p></div>';
-                }
-            }, 1000);
         }
 
         // Charger les données au démarrage

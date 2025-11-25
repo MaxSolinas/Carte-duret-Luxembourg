@@ -549,19 +549,6 @@
         watermark.innerHTML = '© Aqua Purify';
         watermark.style.display = 'none';
         container.appendChild(watermark);
-
-        // Protection contre F12
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'F12' ||
-              (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-              (e.ctrlKey && e.shiftKey && e.key === 'J') ||
-              (e.ctrlKey && e.key === 'U')) {
-            if (container.contains(document.activeElement)) {
-              e.preventDefault();
-              return false;
-            }
-          }
-        });
       }
 
       // Charger les données au démarrage

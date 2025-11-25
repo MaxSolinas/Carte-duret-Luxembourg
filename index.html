@@ -225,19 +225,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     watermark.innerHTML = '© Aqua Purify';
     watermark.style.display = 'none';
     widget.appendChild(watermark);
-
-    // Protection contre outils développeur
-    document.addEventListener('keydown', (e) => {
-      if (widget.contains(document.activeElement)) {
-        if (e.key === 'F12' ||
-            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-            (e.ctrlKey && e.shiftKey && e.key === 'J') ||
-            (e.ctrlKey && e.key === 'U')) {
-          e.preventDefault();
-          return false;
-        }
-      }
-    });
   })();
 });
 </script>
