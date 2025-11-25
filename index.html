@@ -71,8 +71,20 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // Charger les données depuis l'API
   try {
+    console.log('Début du chargement des données...');
+    communeDetails.innerHTML = '<p style="text-align:center;">Chargement des données (fichier volumineux, quelques secondes)...</p>';
+    communeDetails.style.display = "block";
+
     const response = await fetch(API_URL);
+    console.log('Réponse reçue:', response.status);
+
+    if (!response.ok) {
+      throw new Error('Erreur réseau: ' + response.status);
+    }
+
+    communeDetails.innerHTML = '<p style="text-align:center;">Traitement des données...</p>';
     const geoData = await response.json();
+    console.log('Données GeoJSON chargées, nombre de features:', geoData.features.length);
 
     // Extraire et regrouper les données par commune
     const communesMap = new Map();
@@ -99,9 +111,12 @@ document.addEventListener('DOMContentLoaded', async function () {
       a[0].localeCompare(b[0], 'fr')
     );
 
+    console.log('Données chargées avec succès, nombre de communes:', communesData.length);
+    communeDetails.style.display = "none"; // Masquer le message de chargement
+
   } catch (error) {
-    console.error('Erreur lors du chargement des données:', error);
-    communeDetails.innerHTML = '<strong style="color: red;">Erreur de chargement des données. Veuillez réessayer plus tard.</strong>';
+    console.error('Erreur détaillée lors du chargement:', error);
+    communeDetails.innerHTML = '<strong style="color: red;">Erreur de chargement: ' + error.message + '</strong><br><small>Vérifiez la console pour plus de détails.</small>';
     communeDetails.style.display = "block";
     return;
   }

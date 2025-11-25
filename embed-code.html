@@ -317,12 +317,19 @@
       // Fonction pour charger les données
       async function loadData() {
         try {
+          console.log('Début du chargement des données...');
+          loadingEl.innerHTML = 'Chargement des données (fichier volumineux, cela peut prendre quelques secondes)...';
+
           const response = await fetch(API_URL);
+          console.log('Réponse reçue:', response.status);
+
           if (!response.ok) {
-            throw new Error('Erreur réseau');
+            throw new Error('Erreur réseau: ' + response.status);
           }
 
+          loadingEl.innerHTML = 'Traitement des données...';
           const geoData = await response.json();
+          console.log('Données GeoJSON chargées, nombre de features:', geoData.features.length);
 
           // Extraire et regrouper les données par commune
           const communesMap = new Map();
@@ -348,11 +355,13 @@
             a.name.localeCompare(b.name, 'fr')
           );
 
+          console.log('Initialisation du widget...');
           initializeWidget();
 
         } catch (error) {
-          console.error('Erreur:', error);
+          console.error('Erreur détaillée:', error);
           loadingEl.classList.add('wde-hidden');
+          errorEl.innerHTML = 'Erreur lors du chargement des données: ' + error.message + '<br><small>Vérifiez la console pour plus de détails.</small>';
           errorEl.classList.remove('wde-hidden');
         }
       }
