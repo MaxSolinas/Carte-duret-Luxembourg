@@ -284,35 +284,29 @@
 
         // Fonction pour déterminer la catégorie de dureté
         function getHardnessCategory(hardness) {
-            if (hardness < 9) {
+            if (hardness < 8) {
                 return {
                     category: 'Eau douce',
                     recommendation: 'Adoucisseur optionnel',
                     class: 'category-soft'
                 };
-            } else if (hardness < 15) {
+            } else if (hardness < 16) {
                 return {
                     category: 'Eau modérément dure',
                     recommendation: 'Adoucisseur recommandé',
                     class: 'category-moderate'
                 };
-            } else if (hardness < 25) {
+            } else if (hardness < 32) {
                 return {
                     category: 'Eau dure',
                     recommendation: 'Adoucisseur fortement recommandé',
                     class: 'category-hard'
                 };
-            } else if (hardness < 35) {
+            } else {
                 return {
                     category: 'Eau très dure',
                     recommendation: 'Adoucisseur indispensable',
                     class: 'category-very-hard'
-                };
-            } else {
-                return {
-                    category: 'Eau extrêmement dure',
-                    recommendation: 'Adoucisseur indispensable',
-                    class: 'category-extreme'
                 };
             }
         }
@@ -334,11 +328,13 @@
                     const commune = feature.properties['trinkwasser.GISADMIN.DWDnationalReportingDurete.Commune'];
                     const hardness = feature.properties['trinkwasser.GISADMIN.DWDnationalReportingDurete.WSZDurete'];
 
-                    if (commune && hardness) {
+                    if (commune && hardness !== null && hardness !== undefined) {
                         if (!communesMap.has(commune)) {
+                            // Cas spécial pour Luxembourg (plusieurs réseaux de distribution)
                             communesMap.set(commune, {
                                 name: commune,
-                                hardness: hardness
+                                hardness: hardness,
+                                isSpecialCase: commune === 'Luxembourg' && hardness < 0
                             });
                         }
                     }
@@ -422,18 +418,35 @@
 
             if (!commune) return;
 
-            const info = getHardnessCategory(commune.hardness);
+            // Cas spécial pour Luxembourg
+            if (commune.isSpecialCase) {
+                communeDetails.innerHTML = `
+                    <div class="commune-name">${commune.name}</div>
+                    <div class="hardness-value" style="color: #666; font-style: italic;">
+                        Plusieurs réseaux de distribution
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <a href="https://www.vdl.lu/fr/vivre/domicile-au-quotidien/verifier-la-qualite-de-leau-chez-soi"
+                           target="_blank"
+                           style="display: inline-block; padding: 12px 20px; background: #0D7EBC; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                            Vérifier la qualité de l'eau à Luxembourg →
+                        </a>
+                    </div>
+                `;
+            } else {
+                const info = getHardnessCategory(commune.hardness);
 
-            communeDetails.innerHTML = `
-                <div class="commune-name">${commune.name}</div>
-                <div class="hardness-value">
-                    Dureté moyenne : <strong>${commune.hardness.toFixed(1)} °f</strong>
-                </div>
-                <div class="hardness-category ${info.class}">
-                    <strong>${info.category}</strong><br>
-                    ${info.recommendation}
-                </div>
-            `;
+                communeDetails.innerHTML = `
+                    <div class="commune-name">${commune.name}</div>
+                    <div class="hardness-value">
+                        Dureté moyenne : <strong>${commune.hardness.toFixed(1)} °f</strong>
+                    </div>
+                    <div class="hardness-category ${info.class}">
+                        <strong>${info.category}</strong><br>
+                        ${info.recommendation}
+                    </div>
+                `;
+            }
 
             communeDetails.classList.remove('hidden');
         }

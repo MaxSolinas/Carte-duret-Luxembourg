@@ -28,35 +28,25 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // Fonction pour déterminer la catégorie et la recommandation selon la dureté
   function getHardnessInfo(hardness) {
-    if (hardness < 9) {
+    if (hardness < 8) {
       return {
-        range: '< 9 °f',
+        range: '< 8 °f',
         category: 'eau douce – Adoucisseur optionnel'
       };
-    } else if (hardness < 15) {
+    } else if (hardness < 16) {
       return {
-        range: '9 - 15 °f',
+        range: '8 - 16 °f',
         category: 'eau modérément dure – Adoucisseur recommandé'
       };
-    } else if (hardness < 25) {
+    } else if (hardness < 32) {
       return {
-        range: '15 - 25 °f',
+        range: '16 - 32 °f',
         category: 'eau dure – Adoucisseur fortement recommandé'
-      };
-    } else if (hardness < 30) {
-      return {
-        range: '25 - 30 °f',
-        category: 'eau très dure – Adoucisseur indispensable'
-      };
-    } else if (hardness < 35) {
-      return {
-        range: '30 - 35 °f',
-        category: 'eau très dure – Adoucisseur indispensable'
       };
     } else {
       return {
-        range: '> 35 °f',
-        category: 'eau extrêmement dure – Adoucisseur indispensable'
+        range: '> 32 °f',
+        category: 'eau très dure – Adoucisseur indispensable'
       };
     }
   }
@@ -75,8 +65,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       if (commune && hardness !== null && hardness !== undefined) {
         if (!communesMap.has(commune)) {
-          const info = getHardnessInfo(hardness);
-          communesMap.set(commune, [commune, info.range, info.category, hardness]);
+          // Cas spécial pour Luxembourg (plusieurs réseaux de distribution)
+          if (commune === 'Luxembourg' && hardness < 0) {
+            communesMap.set(commune, [commune, 'N/A', 'Plusieurs réseaux de distribution', hardness, true]);
+          } else {
+            const info = getHardnessInfo(hardness);
+            communesMap.set(commune, [commune, info.range, info.category, hardness, false]);
+          }
         }
       }
     });
@@ -152,11 +147,24 @@ document.addEventListener('DOMContentLoaded', async function () {
     const selected = this.value;
     const commune = communesData.find(([nom]) => nom === selected);
     if (commune) {
-      communeDetails.innerHTML = `
-        <strong style="font-size: 1.2em;">${commune[0]}</strong><br>
-        Dureté moyenne : <strong>${commune[1]}</strong> (${commune[3].toFixed(1)} °f)<br>
-        <em>${commune[2]}</em>
-      `;
+      // Cas spécial pour Luxembourg (index 4 indique si c'est un cas spécial)
+      if (commune[4]) {
+        communeDetails.innerHTML = `
+          <strong style="font-size: 1.2em;">${commune[0]}</strong><br>
+          <em style="color: #666;">Plusieurs réseaux de distribution</em><br><br>
+          <a href="https://www.vdl.lu/fr/vivre/domicile-au-quotidien/verifier-la-qualite-de-leau-chez-soi"
+             target="_blank"
+             style="display: inline-block; padding: 10px 15px; background: #0D7EBC; color: white; text-decoration: none; border-radius: 5px;">
+            Vérifier la qualité de l'eau à Luxembourg →
+          </a>
+        `;
+      } else {
+        communeDetails.innerHTML = `
+          <strong style="font-size: 1.2em;">${commune[0]}</strong><br>
+          Dureté moyenne : <strong>${commune[1]}</strong> (${commune[3].toFixed(1)} °f)<br>
+          <em>${commune[2]}</em>
+        `;
+      }
       communeDetails.style.display = "block";
     } else {
       communeDetails.style.display = "none";

@@ -30,12 +30,12 @@ Les données proviennent de **data.public.lu** - Administration de la gestion de
 
 | Dureté (°f) | Catégorie | Recommandation |
 |-------------|-----------|----------------|
-| < 9 | Eau douce | Adoucisseur optionnel |
-| 9 - 15 | Eau modérément dure | Adoucisseur recommandé |
-| 15 - 25 | Eau dure | Adoucisseur fortement recommandé |
-| 25 - 30 | Eau très dure | Adoucisseur indispensable |
-| 30 - 35 | Eau très dure | Adoucisseur indispensable |
-| > 35 | Eau extrêmement dure | Adoucisseur indispensable |
+| < 8 | Eau douce | Adoucisseur optionnel |
+| 8 - 16 | Eau modérément dure | Adoucisseur recommandé |
+| 16 - 32 | Eau dure | Adoucisseur fortement recommandé |
+| > 32 | Eau très dure | Adoucisseur indispensable |
+
+**Note :** Pour la ville de Luxembourg, en raison de plusieurs réseaux de distribution différents, le widget renvoie vers le site officiel de la Ville de Luxembourg pour vérifier la qualité de l'eau selon l'adresse spécifique.
 
 ## 🚀 Utilisation
 
