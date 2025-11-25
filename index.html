@@ -93,7 +93,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       const commune = feature.properties['trinkwasser.GISADMIN.DWDnationalReportingDurete.Commune'];
       const hardness = feature.properties['trinkwasser.GISADMIN.DWDnationalReportingDurete.WSZDurete'];
 
-      if (commune && hardness !== null && hardness !== undefined) {
+      // Ignorer les communes qui commencent par "*" (doublons avec données erronées)
+      if (commune && hardness !== null && hardness !== undefined && !commune.startsWith('*')) {
         if (!communesMap.has(commune)) {
           // Cas spécial pour Luxembourg (plusieurs réseaux de distribution)
           if (commune === 'Luxembourg' && hardness < 0) {
